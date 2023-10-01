@@ -1,27 +1,21 @@
+import Link from '@/node_modules/next/link';
 import Image from 'next/image'
+import { getVideos } from './firebase/functions'
 import styles from './page.module.css'
 
-export default function Home() {
+export default async function Home() {
+  const videos = await getVideos();
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.tsx</code>
-        </p>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
+    <main>
+      {
+        videos.map((video) => (
+          <Link href={`/watch?v=${video.filename}`} key={video.id}>
+          <Image src={'/thumbnail.png'} alt='video' width={120} height={80}
+            className={styles.thumbnail}/>
+        </Link>
+        ))
+      }
     </main>
   )
 }

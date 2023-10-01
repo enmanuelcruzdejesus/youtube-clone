@@ -9,11 +9,13 @@ import SignIn from "./sign-in";
 import { onAuthStateChangedHelper } from "../firebase/firebase";
 import { useEffect, useState } from "react";
 import  { User } from "firebase/auth";
+import Upload from "./upload";
 
 
 export default function Navbar (){
 
     const [user, setUser]  = useState<User | null>(null);
+    
 
     useEffect(() => {
       const unsubscribe =   onAuthStateChangedHelper((user) => {
@@ -31,6 +33,10 @@ export default function Navbar (){
                 src="/youtube-logo.svg"
                 alt="Youtube Logo" />
             </Link>
+            {
+
+                user && <Upload/>
+            }
             <SignIn user={user} ></SignIn>
         </nav>
     );
